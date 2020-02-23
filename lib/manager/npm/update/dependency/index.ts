@@ -85,6 +85,16 @@ export function updateDependency({
       oldVersion,
       newValue
     );
+    if (upgrade.newName) {
+      newFileContent = replaceAsString(
+        parsedContents,
+        newFileContent,
+        depType,
+        depName,
+        depName,
+        upgrade.newName
+      );
+    }
     // istanbul ignore if
     if (!newFileContent) {
       logger.debug(
