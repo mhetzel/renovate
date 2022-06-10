@@ -10,7 +10,11 @@ function setDepType(content: string, originalType: string): string {
   let depType = originalType;
   if (content.includes('python_requires')) {
     depType = 'python_requires';
-  } else if (content.includes('build_require')) {
+  } else if (content.includes('tool_require')) {
+    depType = 'tool_requires';
+  }else if (content.includes('test_require')) {
+    depType = 'test_requires';
+  }else if (content.includes('build_require')) {
     depType = 'build_requires';
   } else if (content.includes('requires')) {
     depType = 'requires';
@@ -23,6 +27,8 @@ export function extractPackageFile(content: string): PackageFile | null {
   const sections = content.split(/def |\n\[/).filter(
     (part) =>
       part.includes('python_requires') || // only matches python_requires
+      part.includes('tool_require') || // matches tool_requires(), and tool_requires
+      part.includes('test_require') || // matches test_requires(), and test_requires
       part.includes('build_require') || // matches [build_requires], build_requirements(), and build_requires
       part.includes('require') // matches [requires], requirements(), and requires
   );
